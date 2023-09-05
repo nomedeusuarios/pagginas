@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage do Netflix</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/netflixfavicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/netflix-logo.png') }}" alt="Netflix">
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home')}}">Início</a></li> <!--coloca DEF da home com url_for-->
+                <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
+                <li><a href="{{ url_for('logout')}}">Sair</a></li>
+                </form>
+            </ul>
+        </nav>
+    </header>
+    <main class="catalog">
+    <div style='justify-content: space-between;display:flex;'>
+        <section style='width:80%;'>
+            <h2>Cadastrar nova Série no tema "{{parTema}}"</h2>
+            <form method="post" enctype="multipart/form-data" action="{{url_for('processar_tema')}}"> <!--MANDA PRA ROTA PROCESSAR-->
+            <div class='treco'>
+                <label for="tema">Tema: </label><input type="text" name="tema" value="{{parTema}}" readonly><br/>
+                <label for="titulo">Título: </label><input type="text" name="titulo" id="titulo" placeholder="Inserir Título"/><br/>
+                <p></p>
+                <label for="Imagem">Imagem: </label><input type='file' name='imagem' style='width:300px'/><br/>
+                <label for="sinopse">Sinopse: <label><Input type='text' name='sinopse' id='sinopse' placeholder='Inserir Sinopse da Série' style='width:500px'/><br/>
+                <label for="temporadas">Temporadas: <label><Input type='number' name='temporadas' min='1' id='temporadas' placeholder='Inserir temporadas da Série' style='width:182px'/><br/>
+                <p></p>
+                <label for="avaliacao">Avaliação: <label><Input type='number' name='avaliacao' id='avaliacao' step="0.1" min='1' max='5' placeholder='Inserir avaliação da Série' style='width:180px'/><br/>
+                <label for="elenco">Elenco: <label><Input type='text' name='elenco' id='elenco' placeholder='Inserir elenco da Série' style='width:500px'/><br/>
+                <p></p>
+                <input type='submit' id='postar' value='Atualizar'>
+                <span style='word-spacing:normal;font-size:14px;opacity:0.85'>(de preferência coloque uma imagem para a série inserida)</span>
+            </div>
+            </form>
+        </section>
+        <aside style='opacity:1;width:45%;padding:50px'>
+            <h2>Deletar tema "{{parTema}}"</h2>
+            <form method="post" action="{{url_for('excluir_tema', deletado=parTema )}}">
+            <div class='treco'>
+                <input type='submit' value='Excluir'> 
+            </div>
+            </form>
+            <h2>Deletar Série</h2>
+            <form method="post" action="{{url_for('excluir_serie')}}">
+            <div class='treco'>
+                <label for="tema">Tema: </label><input type="text" name="tema" value="{{parTema}}" readonly><br/>
+                <label for="titulo">Título: </label><input type="text" name="titulo" id="titulo" placeholder="Inserir Título"/><br/>
+                <input type='submit' value='Excluir'> 
+            </div>
+            </form>
+        </aside>
+        
+    </div>
+    </main>
+    <style>
+        footer{
+            padding: 50px 0;
+            width: 100%;
+            background-color: #e50914;		
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+    <footer>
+    </footer>
+</body>
+</html>    

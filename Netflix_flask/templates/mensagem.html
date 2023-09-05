@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage do Netflix</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/netflixfavicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/netflix-logo.png') }}" alt="Netflix">
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home')}}">Início</a></li> <!--coloca DEF da home com url_for-->
+                {% if session['login'] == True %}
+                <li><a href="{{ url_for(anterior)}}">Voltar</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main class="catalog"> <!-- SERVE PARA QUANDO A PESSOA ERRAR A SENHA OU SAI DO SISTEMA. -->
+    <section>
+    </section>
+    </main>
+    <footer style=' padding: 50px 0;
+    max-width: 840px;
+    margin: 60px auto 0;
+    background-color: #e50914;		
+    clear: both;
+    border-radius: 7px;	'>
+        <p style='text-align: center; font-weight: bold; font-size:30px'>{{ parMensagem }}</p>
+    </footer>
+</body>
+</html>    

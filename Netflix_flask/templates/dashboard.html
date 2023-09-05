@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage do Netflix</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/netflixfavicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/netflix-logo.png') }}" alt="Netflix">
+        <nav>
+            <ul>
+                <form method="post" action="{{url_for('dashboard')}}"> <!--Post: manda informações escondidas(criptografada) para rota dashboard-->
+                <li><a href="{{ url_for('home')}}">Início</a></li> <!--coloca DEF da home com url_for-->
+                <li><a href="{{ url_for('logout')}}">Sair</a></li>
+                </form>
+            </ul>
+        </nav>
+    </header>
+    <main class="catalog">
+        <h1>Bem-vindo(a) {{ parNome }}</h1>
+        <section>
+            <h1>Temas</h1>
+            {% if parCatalogo != []%}
+                <ul>
+                {% for tema in parCatalogo %}
+                <h3><a href="{{ url_for('modificar_tema', nome_tema = tema.nome) }}">{{ tema.nome }}</a></h3>
+                {% if tema.series != []%}
+                    {% for serie in tema.series %}
+                    <li>{{ serie.titulo}}</li>                
+                    {% endfor %}
+                {% else %}
+                <li style='font-style:italic;'>Não há séries cadastradas neste tema.</li>
+                {% endif%}
+                {% endfor %}
+            {% else %}
+                <h3>Não há Temas cadastrados no momento.</h3>
+                <style>
+                    footer{
+                        padding: 50px 0;
+                        width: 100%;
+                        background-color: #e50914;
+                        position: absolute;
+                        bottom: 0;
+                    }
+                </style>
+            {% endif %}
+        </ul>
+        
+
+        </section>
+        <h2>Cadastrar Novo Tema</h2>
+        <form method="post" enctype="multipart/form-data" action="{{ url_for('adicionar_tema')}}">
+            <div class='treco'>
+                <label for="tema">Tema: </label><input type="text" name="tema" id="tema" placeholder="Inserir Tema"/><br/>
+                <input type='submit' id='postar' value='Postar'>
+            </div>
+        </form>
+    </main>
+    {% if parCatalogo != []%}
+    <style>
+        footer{
+            padding: 50px 0;
+            width: 100%;
+            background-color: #e50914;
+            clear: both;
+        }
+    </style>
+    {% endif %}
+    <footer>
+    </footer>
+</body>
+</html>    

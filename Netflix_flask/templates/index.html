@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage do Netflix</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/netflixfavicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/netflix-logo.png') }}" alt="Netflix">
+        <nav>
+            <ul>
+                {% if session['login'] == False %}
+                <form method="post" action="{{url_for('dashboard')}}"> <!--Post: manda informações escondidas(criptografada) para rota dashboard-->
+                <li><a href="{{ url_for('home')}}">Início</a></li> <!--coloca DEF da home com url_for-->
+                <!-- LOGIN PARA ACESSO AO PAINEL (DASHBOARD)-->
+                <li><input type='email' name="email" placeholder="Digite seu E-mail"></li>
+                <li><input type='password' name="senha" placeholder="Digite sua Senha"></li>
+                <li><input type='submit' id='login' value='Login'></li>
+                </form>
+                {% else %}
+                <li><a href="{{url_for('dashboard')}}">Dashboard</a></li>
+                <li><a href="{{url_for('logout') }}">Sair</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main class="catalog">
+        <section>
+            <h2>Destaque da Semana</h2>
+            {% if parSerieDestaque != ''%}
+            <article class="destaque-item">
+                <img src="{{ url_for('static', filename='images/' + parSerieDestaque.imagem) }}" alt="{{ parSerieDestaque.titulo }}">
+                <div class="destaque-item-textos">
+                    <h2>{{ parSerieDestaque.titulo }}</h2>
+                    <p>{{ parSerieDestaque.sinopse }}</p>
+                    <aside>
+                        <ul>
+                            <li>Temporadas: {{ parSerieDestaque.temporadas }}</li>
+                            <li>Avaliação: {{ parSerieDestaque.avaliacao }}</li>
+                            <li>Elenco: {{ parSerieDestaque.elenco }}</li>
+                        </ul>
+                    </aside>
+                    <button>Assistir</button>
+                </div>
+            </article>
+            {% else %} 
+                <h3>Não há séries cadastradas no momento.</br>Clique <a href="{{ url_for('dashboard')}}" style='text-decoration:none; color:#e50914'>Aqui</a> se deseja cadastrar um novo Tema ou atualizar um Tema existente.</h3>
+                <style>
+                    footer {
+                        padding: 50px 0;
+                        width: 100%;
+                        background-color: #e50914;
+                        position: absolute;
+                        bottom: 0;
+                    }
+                </style>
+            {% endif %}    
+        </section>
+        {% for tema in parCatalogo %}
+        <section>
+            <h2>{{ tema.nome }}</h2>
+            {% if tema.series != []%}
+            {% for serie in tema.series %}
+            <article class="catalogo-item">
+                <img src="{{ url_for('static', filename='images/' + serie.imagem) }}" alt="{{ serie.titulo }}">
+                <div class="catalogo-item-textos">
+                    <h2>{{ serie.titulo }}</h2>
+                    <p>{{ serie.sinopse }}</p>
+                    <button>Assistir</button>
+                </div>
+            </article>
+            {% endfor %}
+            {% else %}
+            <p style='font-weight:bold;'>Não há séries cadastradas neste tema.</p>
+            {% endif %}
+        </section>
+        {% endfor %}
+    </main>
+    {% if parSerieDestaque != '' %}
+    <style>
+        footer {
+            padding: 50px 0;
+            width: 100%;
+            background-color: #e50914;
+            clear: both;
+        }
+    </style>
+    {% endif%}
+    <footer class='wawa'>
+    </footer>
+</body>
+</html>    
